@@ -23,17 +23,30 @@ public class Cliente {
 
 		String host = (args.length < 1) ? null : args[0];
 		try {
+
 			Registry registry = LocateRegistry.getRegistry(host);
+
+			// Obtiene los nombres de los objetos registrados en el registro
+			String[] bindings = registry.list();
+
+			for (String bind : bindings) {
+				System.out.println("Binding: " + bind);
+			}
+
 			// Resuelve el objeto remoto (la referencia a...)
-			HolaMundo stub = (HolaMundo) registry.lookup("Hola");
+			IHolaMundo stub = (IHolaMundo) registry.lookup("Hola");
 			String respuesta = stub.decirHola();
 			System.out.println("Respuesta del servidor remoto: " + respuesta);
 
-			int enteroAleatorio = stub.obtenerEnteroAleatorio();
-			System.out.println("Respuesta del servidor remoto: " + enteroAleatorio);
+			// Resuelve el objeto remoto (la referencia a...)
+			IQueTalMundo stub2 = (IQueTalMundo) registry.lookup("QueTal");
+			respuesta = stub2.decirQueTal();
+			System.out.println("Respuesta del servidor remoto: " + respuesta);
 
-			String despedida = stub.decirHastaLuego();
-			System.out.println("Respuesta del servidor remoto: " + despedida);
+			// Resuelve el objeto remoto (la referencia a...)
+			IAdiosMundo stub3 = (IAdiosMundo) registry.lookup("Adios");
+			respuesta = stub3.decirAdios();
+			System.out.println("Respuesta del servidor remoto: " + respuesta);
 
 		} catch (Exception e) {
 			System.err.println("Excepción en cliente: " + e.toString());
